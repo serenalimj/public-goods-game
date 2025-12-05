@@ -1,0 +1,125 @@
+{{ extends 'global/Page.html' }}
+{{ block title }}Results{{ endblock }}
+
+{{ block content }}
+
+<p>
+    The current round has concluded.
+</p>
+<p>
+    Below is a table showing the initial endowments, actual contributions, and final
+    payoffs for each player in your neighborhood including yourself.
+</p>
+<style>
+table {
+    border-collapse: collapse;
+}
+
+table, td, th {
+    border: 1px solid black;
+}
+table {
+	width:80%;
+}
+th {
+	height:50px;
+}
+th {
+	text-align:center;
+}
+td {
+	padding:12px;
+}
+th {
+	background-color:lightslategrey;
+	color:white;
+}
+</style>
+{{ if player.id_in_group == 1 }}
+    <table>
+        <tr>
+            <th>Player id</th>
+            <th>Endowment</th>
+            <th>Contribution</th>
+            <th>Payoffs</th>
+        </tr>
+        <tr>
+            <td>Player 1 (you)</td>
+            <td>{{ C.ENDOWMENT.0 }}</td>
+            <td>{{ player1_contribution}}</td>
+            <td>{{ player1_payoff }}</td>
+        </tr>
+        <tr>
+            <td>Player 2</td>
+            <td>{{ C.ENDOWMENT.1 }}</td>
+            <td>{{ player2_contribution }}</td>
+            <td>{{ player2_payoff }}</td>
+        </tr>
+
+    </table>
+
+{{ elif player.id_in_group == 2 }}
+    <table>
+        <tr>
+            <th>Player id</th>
+            <th>Endowment</th>
+            <th>Contribution</th>
+            <th>Payoffs</th>
+        </tr>
+        <tr>
+            <td>Player 1</td>
+            <td>{{ C.ENDOWMENT.0 }}</td>
+            <td>{{ player1_contribution}}</td>
+            <td>{{ player1_payoff }}</td>
+        </tr>
+        <tr>
+            <td>Player 2 (you)</td>
+            <td>{{ C.ENDOWMENT.1 }}</td>
+            <td>{{ player2_contribution }}</td>
+            <td>{{ player2_payoff }}</td>
+        </tr>
+        <tr>
+            <td>Player 3</td>
+            <td>{{ C.ENDOWMENT.2 }}</td>
+            <td>{{ player3_contribution }}</td>
+            <td>{{ player3_payoff }}</td>
+        </tr>
+
+
+    </table>
+
+
+{{ else }}
+    <table>
+        <tr>
+            <th>Player id</th>
+            <th>Endowment</th>
+            <th>Contribution</th>
+            <th>Payoffs</th>
+        </tr>
+        <tr>
+            <td>Player 2</td>
+            <td>{{ C.ENDOWMENT.1 }}</td>
+            <td>{{ player2_contribution }}</td>
+            <td>{{ player2_payoff }}</td>
+        </tr>
+        <tr>
+            <td>Player 3 (you)</td>
+            <td>{{ C.ENDOWMENT.2 }}</td>
+            <td>{{ player3_contribution }}</td>
+            <td>{{ player3_payoff }}</td>
+        </tr>
+
+
+    </table>
+
+{{ endif }}
+<p>
+</p>
+<p>
+    When you are ready to continue to the next round, click "Next"
+</p>
+<p>
+    {{ next_button }}
+</p>
+{{ endblock }}

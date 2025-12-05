@@ -1,0 +1,230 @@
+{{ extends 'global/Page.html' }}
+{{ block title }}Contribute{{ endblock }}
+
+{{ block content }}
+
+{{ if player.id_in_group == 1 }}
+    <p>
+        You are player 1.
+    </p>
+    <p>
+        your endowment is {{C.ENDOWMENT.0}}.
+    </p>
+    <p>
+        Player 2's endowment is {{C.ENDOWMENT.1}}
+    </p>
+{{ elif player.id_in_group == 2}}
+    <p>
+        You are player 2.
+    </p>
+    <p>
+        your endowment is {{C.ENDOWMENT.1}}.
+    </p>
+    <p>
+        Player 1's endowment is {{C.ENDOWMENT.0}};
+    </p>
+    <p>
+        Player 3's endowment is {{C.ENDOWMENT.2}}
+    </p>
+{{ else }}
+    <p>
+        You are player 3.
+    </p>
+    <p>
+        your endowment is {{C.ENDOWMENT.2}}.
+    </p>
+    <p>
+        Player 2's endowment is {{C.ENDOWMENT.1}}
+    </p>
+{{ endif }}
+<p>
+    Your payoff is calculated as follows: Your Endowment - Your Contribution + (1 / total members in your group) *
+    (Your Group's Total Contribution).
+</p>
+
+<style>
+    .solid {
+        border-style:solid;
+        padding: 10px;
+    }
+</style>
+<script>
+    const ENDOWMENT = [1, 10, 1]
+</script>
+<div style="display: flex;">
+    <div class="solid" style="border: 1px solid; padding: 10px; margin-right: 20px;">
+        <h3>Contribution</h3>
+        <p>
+            Note: you cannot contribute an amount larger than your endowment
+        </p>
+        {{ formfields }}
+    </div>
+
+    {{ if player.id_in_group == 1 }}
+    <div class="solid" style="border: 1px solid; padding: 10px;">
+        <h3>Payoff Calculator</h3>
+        <p>
+            The "Payoff Calculator" is for you to enter hypothetical contribution amount from your group and
+            calculate your expected payoff.
+        </p>
+        <p>
+            The numbers you entered in the calculator will NOT affect the final result.
+        </p>
+        <p>
+            Note: the calculator takes any number, but you may only contribute an amount
+            between 0 and your endowment
+        </p>
+        <p>
+        <label for="player1_1">Please enter a contribution amount from player 1 (you):</label>
+        <input type="number" id="player1_1" min="0" max="50" value="">
+        </p>
+        <p>
+        <label for="player1_2">Please enter a contribution amount from player 2:</label>
+        <input type="number"  id="player1_2" min="0" max="50" value="">
+        </p>
+        <p>
+        <button onclick='p1Function()'>Calculate</button>
+        </p>
+        <div id="message1"></div>
+        <div id="message11"></div>
+    </div>
+
+
+    <script>
+    function p1Function() {
+        event.preventDefault()
+        var player_1 = parseFloat(document.getElementById("player1_1").value);
+        var player_2 = parseFloat(document.getElementById("player1_2").value);
+        var p1_ENDOWMENT = ENDOWMENT[0]
+        var p2_ENDOWMENT = ENDOWMENT[1]
+        console.log(p1_ENDOWMENT)
+        var p1_payoff =  p1_ENDOWMENT - player_1 + (1/2) * (player_1 + player_2)
+        var p2_payoff =  p2_ENDOWMENT - player_2 + (1/2) * (player_1 + player_2)
+
+        document.getElementById("message1").innerText = "Your expected payoff is:"+ p1_payoff;
+        document.getElementById("message11").innerText = "Player 2's payoff is:" + p2_payoff;
+    }
+
+    </script>
+    {{ elif player.id_in_group == 2 }}
+    <div class="solid" style="border: 1px solid; padding: 10px;">
+        <h2>Payoff Calculator</h2>
+        <p>
+            The "Payoff Calculator" is for you to enter hypothetical contribution amount from your group and
+            calculate your expected payoff.
+        </p>
+        <p>
+            The numbers you entered in the calculator will NOT affect the final result.
+        </p>
+        <p>
+            Note: the calculator takes any number, but you may only contribute an amount
+            between 0 and your endowment
+        </p>
+        <p>
+        <label for="player2_2">Please enter a contribution amount from player 2 (you):</label>
+        <input type="number" value="" id="player2_2" min="0" max="50">
+        </p>
+        <p>
+        <label for="player2_1">Please enter the total contribution amount from player 1:</label>
+        <input type="number" value="" id="player2_1" min="0" max="50">
+        </p>
+        <p>
+        <label for="player2_3">Please enter the total contribution amount from player 3:</label>
+        <input type="number" value="" id="player2_3" min="0" max="50">
+        </p>
+        <p>
+        <button onclick='p2Function()'>Calculate</button>
+        </p>
+        <div id="message2"></div>
+        <div id="message22"></div>
+        <div id="message222"></div>
+    </div>
+
+
+
+    <script>
+    function p2Function() {
+        event.preventDefault()
+        var player_1 = parseFloat(document.getElementById("player2_1").value);
+        var player_3 = parseFloat(document.getElementById("player2_3").value);
+        var player_2 = parseFloat(document.getElementById("player2_2").value);
+        var p2_ENDOWMENT = ENDOWMENT[1]
+        var p1_ENDOWMENT = ENDOWMENT[0]
+        var p3_ENDOWMENT = ENDOWMENT[2]
+        console.log(p2_ENDOWMENT)
+        var p2_payoff = p2_ENDOWMENT - player_2 + (1/3) * (player_1 + player_3 + player_2)
+        var p3_payoff = p3_ENDOWMENT - player_3 + (1/2) * (player_3 + player_2)
+        var p1_payoff = p1_ENDOWMENT - player_1 + (1/2) * (player_1 + player_2)
+
+        document.getElementById("message2").innerText = "Your expected payoff is:"+ p2_payoff;
+        document.getElementById("message22").innerText = "Player 1's expected payoff is:"+ p1_payoff;
+        document.getElementById("message222").innerText = "Player 3's expected payoff is:"+ p3_payoff;
+    }
+
+    </script>
+
+    {{ else }}
+    <div class="solid" style="border: 1px solid; padding: 10px;">
+        <h2>Payoff Calculator</h2>
+        <p>
+            The "Payoff Calculator" is for you to enter hypothetical contribution amount from your group and
+            calculate your expected payoff.
+        </p>
+        <p>
+            The numbers you entered in the calculator will NOT affect the final result.
+        </p>
+        <p>
+            Note: the calculator takes any number, but you may only contribute an amount
+            between 0 and your endowment
+        </p>
+        <p>
+        <label for="player3_2">Please enter a contribution amount from player 2:</label>
+        <input type="number" value="" id="player3_2" min="0" max="50">
+        </p>
+        <p>
+        <label for="player3_3">Please enter a contribution amount from player 3 (you):</label>
+        <input type="number" value="" id="player3_3" min="0" max="100">
+        </p>
+        <p>
+        <button onclick='p3Function()'>Calculate</button>
+        </p>
+        <div id="message3"></div>
+        <div id="message33"></div>
+
+    </div>
+
+    <script>
+    function p3Function() {
+        event.preventDefault()
+        var player_2 = parseFloat(document.getElementById("player3_2").value);
+        var player_3 = parseFloat(document.getElementById("player3_3").value);
+        var p3_ENDOWMENT = ENDOWMENT[2]
+        var p2_ENDOWMENT = ENDOWMENT[1]
+        console.log(p3_ENDOWMENT)
+        var p3_payoff = p3_ENDOWMENT - player_3 + (1/2) * (player_2 + player_3)
+        var p2_payoff = p2_ENDOWMENT - player_2 + (1/2) * (player_2 + player_3)
+        document.getElementById("message3").innerText = "Your expected payoff is:"+ p3_payoff;
+        document.getElementById("message33").innerText = "Player 2's expected payoff is:"+ p2_payoff;
+    }
+
+    </script>
+    {{ endif }}
+
+</div>
+
+<p>
+</p>
+<p>
+<button onclick='goToNextPage()'>Next Page</button>
+</p>
+
+<script>
+    function goToNextPage() {
+}
+</script>
+<p>
+Note: Once you click on the "next page" button, you will not be able to return back to this page
+and change your contribution.
+</p>
+
+{{ endblock }}

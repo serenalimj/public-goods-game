@@ -1,0 +1,38 @@
+{{ block title }}Instruction{{ endblock }}
+
+{{ block content }}
+{{ if player.id_in_group == 1 }}
+    <p>
+        You have been randomly and anonymously paired with another participant.
+    </p>
+    <p>
+        You are player 1. Your endowment is {{C.ENDOWMENT.0}}.
+    </p>
+    <p>
+        Your partner's endowment is also {{C.ENDOWMENT.1}}.
+    </p>
+{{ elif player.id_in_group == 2}}
+    <p>
+        You have been randomly and anonymously paired with another 2 participants.
+    </p>
+    <p>
+        You are player 2. Your endowment is {{C.ENDOWMENT.1}}.
+    </p>
+    <p>
+        Player 1's endowment is {{C.ENDOWMENT.0}}, Player 3's endowment is {{C.ENDOWMENT.2}}.
+    </p>
+{{ else }}
+    <p>
+        You have been randomly and anonymously paired with another participant.
+    </p>
+    <p>
+        You are player 3. Your endowment is {{C.ENDOWMENT.2}}.
+    </p>
+    <p>
+        Player 2's endowment is {{C.ENDOWMENT.1}}.
+    </p>
+{{ endif }}
+
+{{ next_button }}
+
+{{ endblock }}
